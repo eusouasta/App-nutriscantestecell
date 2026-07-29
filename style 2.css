@@ -1,0 +1,425 @@
+/* ---------------------------------------------------
+   NutriScan — tokens
+   Paleta: verde claro, branco, preto. Tudo arredondado.
+--------------------------------------------------- */
+:root{
+  --bg: #F4FAF4;
+  --surface: #FFFFFF;
+  --green-soft: #E4F5E6;
+  --green: #59C97E;
+  --green-strong: #2FA860;
+  --ink: #14171A;
+  --ink-dim: #6B7570;
+  --line: #E4EAE5;
+
+  --protein: #2FA860;
+  --carbs: #FFB454;
+  --fat: #FF8B7A;
+
+  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --r-lg: 28px;
+  --r-md: 20px;
+  --r-sm: 14px;
+  --r-pill: 999px;
+}
+
+*{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body{
+  margin:0;
+  padding:0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+.hidden{ display:none !important; }
+.hidden-input{ display:none; }
+
+/* ---------------------------------------------------
+   Shell
+--------------------------------------------------- */
+.app{
+  max-width: 460px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 32px;
+  display:flex;
+  flex-direction:column;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 20px 22px 4px;
+}
+
+.brand{ display:flex; align-items:center; gap:8px; }
+.brand-leaf{ font-size: 20px; }
+.brand-name{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: 0.01em;
+}
+
+.icon-btn{
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-dim);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+/* ---------------------------------------------------
+   Scanner view
+--------------------------------------------------- */
+.scanner{
+  padding: 18px 22px 0;
+  display:flex;
+  flex-direction:column;
+  flex: 1;
+}
+
+.scanner-eyebrow{
+  margin: 6px 0 2px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  font-weight: 500;
+}
+
+.scanner-title{
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.viewfinder{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: var(--green-soft);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.preview-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+.viewfinder-empty, .viewfinder-loading{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap: 12px;
+  color: var(--green-strong);
+  text-align:center;
+  padding: 0 40px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.spinner{
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(47,168,96,0.25);
+  border-top-color: var(--green-strong);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+.corner{
+  position:absolute;
+  width: 26px;
+  height: 26px;
+  border: 3px solid rgba(20,23,26,0.18);
+}
+.corner-tl{ top:14px; left:14px; border-right:none; border-bottom:none; border-top-left-radius: 12px; }
+.corner-tr{ top:14px; right:14px; border-left:none; border-bottom:none; border-top-right-radius: 12px; }
+.corner-bl{ bottom:14px; left:14px; border-right:none; border-top:none; border-bottom-left-radius: 12px; }
+.corner-br{ bottom:14px; right:14px; border-left:none; border-top:none; border-bottom-right-radius: 12px; }
+
+/* ---------------------------------------------------
+   Buttons
+--------------------------------------------------- */
+.action-row{
+  display:flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.btn{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 8px;
+  padding: 15px 18px;
+  border-radius: var(--r-pill);
+  border: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  cursor:pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.btn:active{ transform: scale(0.97); }
+
+.btn-primary{
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.btn-secondary{
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+}
+
+.btn-block{ width: 100%; margin-top: 6px; }
+
+.privacy-note{
+  text-align:center;
+  color: var(--ink-dim);
+  font-size: 12px;
+  margin: 16px 0 0;
+}
+
+/* ---------------------------------------------------
+   Bottom sheet
+--------------------------------------------------- */
+.sheet-backdrop{
+  position: fixed;
+  inset:0;
+  background: rgba(20,23,26,0.35);
+  z-index: 40;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+.sheet{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  max-width: 460px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: 32px 32px 0 0;
+  padding: 12px 22px calc(24px + env(safe-area-inset-bottom));
+  z-index: 41;
+  max-height: 86vh;
+  overflow-y: auto;
+  animation: slideUp 0.28s cubic-bezier(.2,.9,.3,1);
+}
+
+@keyframes slideUp{
+  from{ transform: translateY(100%); }
+  to{ transform: translateY(0); }
+}
+
+.sheet-handle{
+  width: 40px;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--line);
+  margin: 4px auto 14px;
+}
+
+.sheet-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 18px;
+}
+
+.sheet-eyebrow{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sheet-close{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--green-soft);
+  color: var(--ink);
+  font-size: 14px;
+  cursor:pointer;
+}
+
+/* Totals / donut */
+.totals-row{
+  display:flex;
+  align-items:center;
+  gap: 22px;
+  margin-bottom: 22px;
+}
+
+.donut-wrap{
+  position: relative;
+  width: 128px;
+  height: 128px;
+  flex-shrink: 0;
+}
+
+.donut-svg{ width:100%; height:100%; transform: rotate(-90deg); }
+
+.donut-track{
+  fill:none;
+  stroke: var(--green-soft);
+  stroke-width: 12;
+}
+
+.donut-seg{
+  fill:none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 0.6s cubic-bezier(.2,.9,.3,1);
+}
+
+.donut-protein{ stroke: var(--protein); }
+.donut-carbs{ stroke: var(--carbs); }
+.donut-fat{ stroke: var(--fat); }
+
+.donut-center{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.donut-kcal{
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.donut-kcal-label{
+  font-size: 11.5px;
+  color: var(--ink-dim);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.macro-legend{ flex:1; display:flex; flex-direction:column; gap: 10px; }
+
+.macro-row{ display:flex; align-items:center; gap: 8px; font-size: 13.5px; }
+
+.macro-dot{ width: 9px; height: 9px; border-radius: 50%; flex-shrink:0; }
+.dot-protein{ background: var(--protein); }
+.dot-carbs{ background: var(--carbs); }
+.dot-fat{ background: var(--fat); }
+
+.macro-name{ color: var(--ink-dim); flex:1; }
+.macro-value{ font-weight: 600; }
+
+/* Items list */
+.items-list{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.food-item{
+  display:flex;
+  align-items:center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border-radius: var(--r-md);
+}
+
+.food-emoji{
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.food-info{ flex:1; min-width:0; }
+
+.food-name{
+  font-weight: 600;
+  font-size: 14.5px;
+  margin-bottom: 2px;
+}
+
+.food-confidence{
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+.food-kcal{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------
+   Toast
+--------------------------------------------------- */
+.toast{
+  position: fixed;
+  left: 22px;
+  right: 22px;
+  bottom: 28px;
+  max-width: 420px;
+  margin: 0 auto;
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: var(--r-md);
+  font-size: 13.5px;
+  z-index: 60;
+  text-align:center;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Accessibility */
+:focus-visible{
+  outline: 2px solid var(--green-strong);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .sheet{ animation: none; }
+  .donut-seg{ transition: none; }
+}

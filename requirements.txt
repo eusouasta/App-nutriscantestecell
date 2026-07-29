@@ -1,0 +1,3 @@
+# A função em api/analyze.py usa só a biblioteca padrão do Python
+# (http.server, json, base64, urllib), então não há dependências externas.
+# Este arquivo existe pra a Vercel reconhecer o runtime Python corretamente.
